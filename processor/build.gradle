@@ -1,0 +1,8 @@
+apply plugin: 'java'
+
+dependencies {
+    implementation project(':annotation')
+    implementation 'com.google.guava:guava:24.1-jre'
+    implementation 'com.google.auto:auto-common:0.10'
+}
+
