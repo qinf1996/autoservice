@@ -1,8 +1,22 @@
 apply plugin: 'java'
 
 dependencies {
-    implementation project(':annotation')
-    implementation 'com.google.guava:guava:24.1-jre'
+    implementation 'com.aleaf.autoservice:autoservice:1.0.0'
+    implementation 'com.google.guava:guava:+'
     implementation 'com.google.auto:auto-common:0.10'
 }
+
+
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+ext {
+    versionName = '1.0.0'
+    packageName = 'autoservice-complier'
+    artifact = 'autoservice-complier'
+}
+
+apply from: "$rootProject.rootDir/bintray.gradle"
 

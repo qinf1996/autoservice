@@ -1,5 +1,14 @@
 apply plugin: 'java'
 
-dependencies {
+ext {
+    versionName = '1.0.1'
+    packageName = 'autoservice'
+    artifact = 'autoservice'
 }
 
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+apply from: "$rootProject.rootDir/bintray.gradle"

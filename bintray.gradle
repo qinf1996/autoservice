@@ -1,0 +1,102 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+
+if (project.hasProperty("android")) { // Android libraries
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+
+    task javadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+} else { // Java libraries
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+//    archives javadocJar
+    archives sourcesJar
+}
+
+//// 配置maven库，生成POM.xml文件
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+
+                groupId PROJECT_GROUP_ID
+                artifactId artifact
+                version versionName
+
+                name 'autoservice'
+                description 'autoservice'
+                url PROJECT_SITE_URL
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'qinf'
+                        name 'qinf'
+                        email '279280856@qq.com'
+                    }
+                }
+                scm {
+                    connection PROJECT_GIT_URL
+                    developerConnection PROJECT_GIT_URL
+                    url PROJECT_SITE_URL
+                }
+            }
+        }
+    }
+}
+
+group = PROJECT_GROUP_ID
+version = versionName
+
+bintray {
+    user = BINTRAY_USER
+    key = BINTRAY_API_KEY
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = packageName                // project name in jcenter
+        websiteUrl = PROJECT_SITE_URL
+        vcsUrl = PROJECT_GIT_URL
+        licenses = ["Apache-2.0"]
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+            }
+        }
+    }
+}
+
+javadoc {
+    options {
+        //如果你的项目里面有中文注释的话，必须将格式设置为UTF-8，不然会出现乱码
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
+    }
+}

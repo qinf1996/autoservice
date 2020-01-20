@@ -52,7 +52,6 @@ import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 
 /**
@@ -211,11 +210,6 @@ public class AutoServiceProcessor extends AbstractProcessor {
     }
   }
 
-  /**
-   * Verifies {@link ServiceProvider} constraints on the concrete provider class.
-   * Note that these constraints are enforced at runtime via the ServiceLoader,
-   * we're just checking them at compile time to be extra nice to our users.
-   */
   private boolean checkImplementer(TypeElement providerImplementer, TypeElement providerType) {
 
     String verify = processingEnv.getOptions().get("verify");
@@ -275,7 +269,7 @@ public class AutoServiceProcessor extends AbstractProcessor {
                 return values
                     .stream()
                     .flatMap(value -> value.accept(this, null).stream())
-                    .collect(toImmutableSet());
+                    .collect(ImmutableSet.toImmutableSet());
               }
             },
             null);
