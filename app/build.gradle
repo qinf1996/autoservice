@@ -24,6 +24,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.aleaf.autoservice:autoservice:1.0.0'
   //  implementation project(':annotation')
-    annotationProcessor 'com.aleaf.autoservice:complier:1.0.0'
+    annotationProcessor 'com.aleaf.autoservice:autoservice-complier:1.0.0'
 //    annotationProcessor project(':processor')
 }
